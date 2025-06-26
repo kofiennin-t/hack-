@@ -77,6 +77,7 @@ CREATE TABLE models (
     display_name VARCHAR(200) NOT NULL,
     description TEXT NOT NULL,
     detailed_description TEXT,
+    thumbnail_url TEXT, -- URL to model thumbnail/preview image
     version VARCHAR(20) DEFAULT '1.0.0',
     api_name VARCHAR(100) UNIQUE NOT NULL, -- Unique identifier for API calls
     api_key VARCHAR(255) UNIQUE NOT NULL, -- API key for accessing the model
@@ -334,6 +335,7 @@ SELECT
     m.model_name,
     m.display_name,
     m.description,
+    m.thumbnail_url,
     m.api_name,
     m.category,
     m.tags,
@@ -404,6 +406,7 @@ INSERT INTO developers (username, email, password_hash, first_name, last_name, c
 COMMENT ON TABLE users IS 'Stores end-user information for the AI model platform';
 COMMENT ON TABLE developers IS 'Stores developer/creator information for those who build and deploy AI models';
 COMMENT ON TABLE models IS 'Contains information about AI models including API details and metadata';
+COMMENT ON COLUMN models.thumbnail_url IS 'URL to model thumbnail/preview image for display in marketplace and model listings';
 COMMENT ON TABLE user_history IS 'Tracks all user interactions with AI models including prompts and responses';
 COMMENT ON TABLE model_reviews IS 'User reviews and ratings for AI models';
 COMMENT ON TABLE api_usage_logs IS 'Detailed logs of API usage for analytics and monitoring';

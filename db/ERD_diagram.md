@@ -40,6 +40,7 @@ The database consists of 6 main entities with the following relationships:
          │                          │    model_name    │
          │                          │    display_name  │
          │                          │    description   │
+         │                          │    thumbnail_url │
          │                          │    api_name      │
          │                          │    api_key       │
          │                          │    category      │

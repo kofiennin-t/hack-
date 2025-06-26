@@ -72,6 +72,7 @@ ENTITY MODELS {
   display_name: VARCHAR(200)
   description: TEXT
   detailed_description: TEXT
+  thumbnail_url: TEXT
   version: VARCHAR(20)
   api_name: VARCHAR(100) UK
   api_key: VARCHAR(255) UK
