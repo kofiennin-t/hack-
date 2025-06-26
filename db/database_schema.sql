@@ -8,7 +8,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Create enum types for better data integrity
 CREATE TYPE user_status AS ENUM ('active', 'inactive', 'suspended', 'pending_verification');
 CREATE TYPE developer_status AS ENUM ('active', 'inactive', 'suspended', 'pending_approval');
-CREATE TYPE model_category AS ENUM ('text_generation', 'image_generation', 'code_generation', 'data_analysis', 'translation', 'summarization', 'question_answering', 'other');
+CREATE TYPE model_category AS ENUM ('text_generation', 'image_generation', '3d_modeling', 'music_generation', 'code_generation', 'data_analysis', 'translation', 'summarization', 'question_answering', 'other');
 CREATE TYPE model_status AS ENUM ('active', 'inactive', 'under_review', 'deprecated');
 
 -- Users table - containing user personal information
