@@ -1,4 +1,4 @@
-# AIHub - AI Model Platform
+# Bridge.ai - AI Model Platform
 
 A YouTube-inspired platform where AI developers can showcase their models and users can interact with them through intuitive chat interfaces. Think of it as "YouTube for AI models" - developers get their own channels, users can discover and chat with various AI models, and everything is designed for seamless interaction.
 
@@ -31,8 +31,8 @@ A YouTube-inspired platform where AI developers can showcase their models and us
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/aihub-platform.git
-   cd aihub-platform
+   git clone https://github.com/yourusername/Bridge.ai-platform.git
+   cd Bridge.ai-platform
    ```
 
 2. **Install dependencies**

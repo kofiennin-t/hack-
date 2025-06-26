@@ -9,7 +9,7 @@ export function HeroSection() {
         <div className="text-center">
           <div className="flex items-center justify-center mb-4">
             <Sparkles className="h-8 w-8 mr-2" />
-            <h1 className="text-4xl font-bold">AIHub</h1>
+            <h1 className="text-4xl font-bold">Bridge.ai</h1>
           </div>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Discover and interact with cutting-edge AI models from developers worldwide. Chat, create, and explore the

@@ -9,7 +9,7 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2">
             <Sparkles className="h-6 w-6 text-purple-600" />
-            <span className="text-xl font-bold">AIHub</span>
+            <span className="text-xl font-bold">Bridge.ai</span>
           </Link>
 
           <div className="flex items-center gap-4">

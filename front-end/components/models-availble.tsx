@@ -1,0 +1,109 @@
+// Shared model data and utilities
+
+export interface Model {
+    id: string
+    name: string
+    developer: string
+    description: string
+    category: string
+    thumbnail: string
+    rating: number
+    interactions: number
+    tags: string[]
+    pricing: string
+    lastUpdated: string
+  }
+  
+  export const models: Model[] = [
+    {
+      id: "imagegeneration-1",
+      name: "DeepSeek-Image",
+      developer: "TechCorp AI", 
+      description: "Generate images from text",
+      category: "Image Generation",
+      thumbnail: "/placeholder.svg?height=200&width=300",
+      rating: 4.8,
+      interactions: 10,
+      tags: ["Image", "Generation", "Creative"],
+      pricing: "Free tier available",
+      lastUpdated: "2024-01-15"
+    },
+    {
+      id: "imagegeneration-2", 
+      name: "ArtisticVision",
+      developer: "Creative Labs",
+      description: "Generate stunning artwork and illustrations from text",
+      category: "Image Generation", 
+      thumbnail: "/placeholder.svg?height=200&width=300",
+      rating: 4.9,
+      interactions: 8,
+      tags: ["Image", "Generation", "Creative"],
+      pricing: "$0.05 per image",
+      lastUpdated: "2024-01-12"
+    },
+    {
+      id: "3dgeneration-1",
+      name: "DeepDream", 
+      developer: "DataMind Solutions",
+      description: "Intelligent document and article summarization",
+      category: "3D Generation",
+      thumbnail: "/placeholder.svg?height=200&width=300", 
+      rating: 4.6,
+      interactions: 1,
+      tags: ["3D", "Mesh", "Generation"],
+      pricing: "$0.10 per mesh",
+      lastUpdated: "2024-01-10"
+    },
+    {
+      id: "3dgeneration-2",
+      name: "Hunyuan3D-2",
+      developer: "3DGenAI", 
+      description: "Generate 3D meshes from images",
+      category: "3D Generation",
+      thumbnail: "/placeholder.svg?height=200&width=300",
+      rating: 4.8, 
+      interactions: 6,
+      tags: ["3D", "Mesh", "Generation"],
+      pricing: "$0.15 per mesh",
+      lastUpdated: "2024-01-08"
+    },
+    {
+      id: "3dgeneration-3",
+      name: "3D Mesh Generator",
+      developer: "3DGenAI",
+      description: "Generate 3D meshes from text", 
+      category: "3D Generation",
+      thumbnail: "/placeholder.svg?height=200&width=300",
+      rating: 4.8,
+      interactions: 6,
+      tags: ["3D", "Mesh", "Generation"],
+      pricing: "$0.12 per mesh",
+      lastUpdated: "2024-01-05"
+    },
+    {
+      id: "musicgeneration-1",
+      name: "Music Generator", 
+      developer: "MusicGenAI",
+      description: "Generate music from text",
+      category: "Music Generation",
+      thumbnail: "/placeholder.svg?height=200&width=300",
+      rating: 4.9,
+      interactions: 2, 
+      tags: ["Music", "Generation", "Composition"],
+      pricing: "$0.20 per track",
+      lastUpdated: "2024-01-14"
+    },
+  ]
+  
+  export function getModelById(id: string): Model | null {
+    return models.find(model => model.id === id) || null
+  }
+  
+  export function getModelsByCategory(category: string): Model[] {
+    return models.filter(model => model.category === category)
+  }
+  
+  export function getModelType(id: string): string {
+    const prefix = id.split('-')[0]
+    return prefix
+  }

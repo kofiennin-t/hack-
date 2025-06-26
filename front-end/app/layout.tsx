@@ -7,7 +7,7 @@ import { Navigation } from "@/components/navigation"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "AIHub - Discover and Interact with AI Models",
+  title: "Bridge.ai - Discover and Interact with AI Models",
   description:
     "A platform where AI developers showcase their models and users can interact with them through chat interfaces.",
     generator: 'v0.dev'
