@@ -1,0 +1,166 @@
+%% Entity Relationship Diagram for AI Model Platform
+%% Generated on June 25, 2025
+%% This diagram can be rendered using Mermaid.js or compatible tools
+
+erDiagram
+    %% Main Entities
+    USERS {
+        UUID user_id PK
+        VARCHAR username UK "UNIQUE"
+        VARCHAR email UK "UNIQUE"
+        VARCHAR password_hash
+        VARCHAR first_name
+        VARCHAR last_name
+        DATE date_of_birth
+        VARCHAR phone_number
+        VARCHAR country
+        VARCHAR city
+        TEXT profile_picture_url
+        TEXT bio
+        ENUM status "active, inactive, suspended, pending_verification"
+        BOOLEAN email_verified
+        VARCHAR email_verification_token
+        VARCHAR password_reset_token
+        TIMESTAMP password_reset_expires
+        TIMESTAMP last_login
+        INTEGER login_count
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    DEVELOPERS {
+        UUID developer_id PK
+        VARCHAR username UK "UNIQUE"
+        VARCHAR email UK "UNIQUE"
+        VARCHAR password_hash
+        VARCHAR first_name
+        VARCHAR last_name
+        VARCHAR company_name
+        TEXT website_url
+        VARCHAR github_profile
+        VARCHAR linkedin_profile
+        VARCHAR phone_number
+        VARCHAR country
+        VARCHAR city
+        TEXT profile_picture_url
+        TEXT bio
+        TEXT_ARRAY expertise_areas "ARRAY"
+        INTEGER years_of_experience
+        ENUM status "active, inactive, suspended, pending_approval"
+        BOOLEAN email_verified
+        VARCHAR email_verification_token
+        VARCHAR password_reset_token
+        TIMESTAMP password_reset_expires
+        INTEGER api_quota_limit
+        INTEGER api_quota_used
+        TIMESTAMP last_login
+        INTEGER login_count
+        INTEGER total_models_created "AUTO CALCULATED"
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    MODELS {
+        UUID model_id PK
+        UUID developer_id FK
+        VARCHAR model_name
+        VARCHAR display_name
+        TEXT description
+        TEXT detailed_description
+        TEXT thumbnail_url
+        VARCHAR version
+        VARCHAR api_name UK "UNIQUE"
+        VARCHAR api_key UK "UNIQUE"
+        TEXT api_endpoint
+        ENUM category "text_generation, image_generation, code_generation, etc"
+        TEXT_ARRAY tags "ARRAY"
+        VARCHAR input_format
+        VARCHAR output_format
+        INTEGER max_input_length
+        INTEGER max_output_length
+        INTEGER response_time_ms
+        DECIMAL accuracy_score
+        ENUM status "active, inactive, under_review, deprecated"
+        BOOLEAN is_public
+        TEXT documentation_url
+        TEXT example_request
+        TEXT example_response
+        INTEGER total_requests "AUTO CALCULATED"
+        INTEGER total_users "AUTO CALCULATED"
+        DECIMAL average_rating "AUTO CALCULATED"
+        INTEGER rating_count "AUTO CALCULATED"
+        BOOLEAN featured
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+        TIMESTAMP deprecated_at
+    }
+
+    USER_HISTORY {
+        UUID history_id PK
+        UUID user_id FK
+        UUID model_id FK
+        VARCHAR session_id
+        TEXT prompt
+        TEXT response
+        VARCHAR response_status
+        TEXT error_message
+        TIMESTAMP request_timestamp
+        TIMESTAMP response_timestamp
+        INTEGER response_time_ms
+        INTEGER input_tokens
+        INTEGER output_tokens
+        DECIMAL cost_incurred
+        INTEGER user_rating
+        TEXT user_feedback
+        INET ip_address
+        TEXT user_agent
+        VARCHAR api_version
+        TIMESTAMP created_at
+    }
+
+    MODEL_REVIEWS {
+        UUID review_id PK
+        UUID model_id FK
+        UUID user_id FK
+        INTEGER rating "1-5"
+        VARCHAR review_title
+        TEXT review_text
+        BOOLEAN is_verified_user
+        INTEGER helpful_votes
+        INTEGER total_votes
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    API_USAGE_LOGS {
+        UUID log_id PK
+        UUID user_id FK "NULLABLE"
+        UUID developer_id FK "NULLABLE"
+        UUID model_id FK
+        VARCHAR api_key_used
+        VARCHAR request_method
+        TEXT request_path
+        INTEGER response_status_code
+        INTEGER request_size_bytes
+        INTEGER response_size_bytes
+        INTEGER processing_time_ms
+        TIMESTAMP created_at
+    }
+
+    %% Relationships
+    DEVELOPERS ||--o{ MODELS : "creates"
+    USERS ||--o{ USER_HISTORY : "generates"
+    MODELS ||--o{ USER_HISTORY : "used_in"
+    USERS ||--o{ MODEL_REVIEWS : "writes"
+    MODELS ||--o{ MODEL_REVIEWS : "receives"
+    USERS ||--o{ API_USAGE_LOGS : "makes_requests"
+    DEVELOPERS ||--o{ API_USAGE_LOGS : "tracks_usage"
+    MODELS ||--o{ API_USAGE_LOGS : "logs_usage"
+
+    %% Additional Notes
+    %% USERS and DEVELOPERS are separate entities (different user types)
+    %% MODEL_REVIEWS has unique constraint on (model_id, user_id)
+    %% All timestamps use CURRENT_TIMESTAMP as default
+    %% UUIDs are generated using uuid_generate_v4()
+    %% Arrays are PostgreSQL array types
+    %% ENUMs are custom PostgreSQL enum types
