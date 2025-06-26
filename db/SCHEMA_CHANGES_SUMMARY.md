@@ -8,6 +8,7 @@
 - **Removed:** `pricing_per_request` field (was `DECIMAL(10,4)`)  
 - **Removed:** `pricing_currency` field (was `VARCHAR(3)`)
 - **Removed:** Related pricing constraint (`valid_pricing`)
+- **Added:** `thumbnail_url` field (`TEXT`) - URL to model thumbnail/preview image
 
 ### 2. **Developers Table Restored**
 - **Added back:** `years_of_experience INTEGER` field (was missing)
@@ -17,9 +18,13 @@
   - Removed `m.subcategory`
   - Removed `m.pricing_per_request` 
   - Removed `m.pricing_currency`
+  - Added `m.thumbnail_url` for display purposes
 
 ### 4. **Constraint Updates**
 - **Removed:** `valid_pricing` constraint from models table
+
+### 5. **Documentation Updates**
+- **Added:** Specific column comment for `thumbnail_url` field
 
 ## Impact Analysis
 
@@ -27,11 +32,15 @@
 1. **Simplified Model Structure:** Removing subcategory reduces complexity - main category should be sufficient
 2. **No Pricing Dependency:** Removes pricing logic from core model management
 3. **Cleaner API:** Fewer fields to manage in model creation/updates
+4. **Enhanced Visual Appeal:** Thumbnail URLs enable rich visual model listings and marketplace displays
+5. **Better User Experience:** Users can quickly identify models through visual thumbnails
 
 ### ⚠️ **Considerations:**
 1. **Pricing Logic:** If pricing is still needed, it might need to be handled elsewhere (separate pricing table, external service, etc.)
 2. **Categorization:** Without subcategory, ensure main categories are comprehensive enough
 3. **Data Migration:** If existing data has these fields, migration scripts would be needed
+4. **Thumbnail Management:** Need to implement image upload/storage system for thumbnails
+5. **Thumbnail Validation:** Should validate thumbnail URLs and handle broken/missing images gracefully
 
 ## Current Schema Summary
 
