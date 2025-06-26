@@ -98,7 +98,7 @@ export function ModelUploadForm() {
               </Label>
               <Input
                 id="tags"
-                placeholder="Python, JavaScript, Debugging"
+                placeholder="3D Mesh, Image Generation, Music Generation"
                 value={formData.tags}
                 onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
               />
