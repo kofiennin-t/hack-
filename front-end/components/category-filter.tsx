@@ -11,6 +11,9 @@ const categories = [
   "Translation",
   "Summarization",
   "Question Answering",
+  "Audio Processing",
+  "Document Analysis",
+  "Multi-Modal",
 ]
 
 export function CategoryFilter() {

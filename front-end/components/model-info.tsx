@@ -13,6 +13,12 @@ interface ModelInfoProps {
     tags: string[]
     pricing: string
     lastUpdated: string
+    supportedInputs: {
+      text: boolean
+      image: boolean
+      document: boolean
+      audio: boolean
+    }
   }
 }
 
@@ -66,6 +72,55 @@ export function ModelInfo({ model }: ModelInfoProps) {
                 {tag}
               </Badge>
             ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center mb-2">
+            <Tag className="h-4 w-4 mr-2" />
+            <span className="text-sm font-medium">Supported Inputs</span>
+          </div>
+          <div className="flex flex-wrap gap-1">
+            {model.supportedInputs.text && (
+              <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
+                ✅ Text
+              </Badge>
+            )}
+            {model.supportedInputs.image && (
+              <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200">
+                ✅ Images
+              </Badge>
+            )}
+            {model.supportedInputs.document && (
+              <Badge variant="outline" className="text-xs bg-purple-50 text-purple-700 border-purple-200">
+                ✅ Documents
+              </Badge>
+            )}
+            {model.supportedInputs.audio && (
+              <Badge variant="outline" className="text-xs bg-orange-50 text-orange-700 border-orange-200">
+                ✅ Audio
+              </Badge>
+            )}
+            {!model.supportedInputs.text && (
+              <Badge variant="outline" className="text-xs bg-gray-50 text-gray-500 border-gray-200">
+                ❌ Text
+              </Badge>
+            )}
+            {!model.supportedInputs.image && (
+              <Badge variant="outline" className="text-xs bg-gray-50 text-gray-500 border-gray-200">
+                ❌ Images
+              </Badge>
+            )}
+            {!model.supportedInputs.document && (
+              <Badge variant="outline" className="text-xs bg-gray-50 text-gray-500 border-gray-200">
+                ❌ Documents
+              </Badge>
+            )}
+            {!model.supportedInputs.audio && (
+              <Badge variant="outline" className="text-xs bg-gray-50 text-gray-500 border-gray-200">
+                ❌ Audio
+              </Badge>
+            )}
           </div>
         </div>
       </CardContent>
