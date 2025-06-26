@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Platform - Entity Relationship Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .diagram-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .info-box {
+            background-color: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .info-box h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        .relationship-list {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .relationship-list h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        .relationship-list ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .relationship-list li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Model Platform - Entity Relationship Diagram</h1>
+        
+        <div class="info-box">
+            <h3>📊 Database Overview</h3>
+            <p>This diagram represents the database schema for an AI Model Platform with 6 main entities: Users, Developers, Models, User History, Model Reviews, and API Usage Logs. The schema supports user management, model marketplace functionality, interaction tracking, and comprehensive analytics.</p>
+        </div>
+
+        <div class="diagram-container">
+            <div class="mermaid">
+erDiagram
+    %% Main Entities
+    USERS {
+        UUID user_id PK
+        VARCHAR username UK "UNIQUE"
+        VARCHAR email UK "UNIQUE"
+        VARCHAR password_hash
+        VARCHAR first_name
+        VARCHAR last_name
+        DATE date_of_birth
+        VARCHAR phone_number
+        VARCHAR country
+        VARCHAR city
+        TEXT profile_picture_url
+        TEXT bio
+        ENUM status "active, inactive, suspended, pending_verification"
+        BOOLEAN email_verified
+        VARCHAR email_verification_token
+        VARCHAR password_reset_token
+        TIMESTAMP password_reset_expires
+        TIMESTAMP last_login
+        INTEGER login_count
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    DEVELOPERS {
+        UUID developer_id PK
+        VARCHAR username UK "UNIQUE"
+        VARCHAR email UK "UNIQUE"
+        VARCHAR password_hash
+        VARCHAR first_name
+        VARCHAR last_name
+        VARCHAR company_name
+        TEXT website_url
+        VARCHAR github_profile
+        VARCHAR linkedin_profile
+        VARCHAR phone_number
+        VARCHAR country
+        VARCHAR city
+        TEXT profile_picture_url
+        TEXT bio
+        TEXT_ARRAY expertise_areas "ARRAY"
+        INTEGER years_of_experience
+        ENUM status "active, inactive, suspended, pending_approval"
+        BOOLEAN email_verified
+        VARCHAR email_verification_token
+        VARCHAR password_reset_token
+        TIMESTAMP password_reset_expires
+        INTEGER api_quota_limit
+        INTEGER api_quota_used
+        TIMESTAMP last_login
+        INTEGER login_count
+        INTEGER total_models_created "AUTO CALCULATED"
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    MODELS {
+        UUID model_id PK
+        UUID developer_id FK
+        VARCHAR model_name
+        VARCHAR display_name
+        TEXT description
+        TEXT detailed_description
+        VARCHAR version
+        VARCHAR api_name UK "UNIQUE"
+        VARCHAR api_key UK "UNIQUE"
+        TEXT api_endpoint
+        ENUM category "text_generation, image_generation, code_generation, etc"
+        TEXT_ARRAY tags "ARRAY"
+        VARCHAR input_format
+        VARCHAR output_format
+        INTEGER max_input_length
+        INTEGER max_output_length
+        INTEGER response_time_ms
+        DECIMAL accuracy_score
+        ENUM status "active, inactive, under_review, deprecated"
+        BOOLEAN is_public
+        TEXT documentation_url
+        TEXT example_request
+        TEXT example_response
+        INTEGER total_requests "AUTO CALCULATED"
+        INTEGER total_users "AUTO CALCULATED"
+        DECIMAL average_rating "AUTO CALCULATED"
+        INTEGER rating_count "AUTO CALCULATED"
+        BOOLEAN featured
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+        TIMESTAMP deprecated_at
+    }
+
+    USER_HISTORY {
+        UUID history_id PK
+        UUID user_id FK
+        UUID model_id FK
+        VARCHAR session_id
+        TEXT prompt
+        TEXT response
+        VARCHAR response_status
+        TEXT error_message
+        TIMESTAMP request_timestamp
+        TIMESTAMP response_timestamp
+        INTEGER response_time_ms
+        INTEGER input_tokens
+        INTEGER output_tokens
+        DECIMAL cost_incurred
+        INTEGER user_rating
+        TEXT user_feedback
+        INET ip_address
+        TEXT user_agent
+        VARCHAR api_version
+        TIMESTAMP created_at
+    }
+
+    MODEL_REVIEWS {
+        UUID review_id PK
+        UUID model_id FK
+        UUID user_id FK
+        INTEGER rating "1-5"
+        VARCHAR review_title
+        TEXT review_text
+        BOOLEAN is_verified_user
+        INTEGER helpful_votes
+        INTEGER total_votes
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    API_USAGE_LOGS {
+        UUID log_id PK
+        UUID user_id FK "NULLABLE"
+        UUID developer_id FK "NULLABLE"
+        UUID model_id FK
+        VARCHAR api_key_used
+        VARCHAR request_method
+        TEXT request_path
+        INTEGER response_status_code
+        INTEGER request_size_bytes
+        INTEGER response_size_bytes
+        INTEGER processing_time_ms
+        TIMESTAMP created_at
+    }
+
+    %% Relationships
+    DEVELOPERS ||--o{ MODELS : "creates"
+    USERS ||--o{ USER_HISTORY : "generates"
+    MODELS ||--o{ USER_HISTORY : "used_in"
+    USERS ||--o{ MODEL_REVIEWS : "writes"
+    MODELS ||--o{ MODEL_REVIEWS : "receives"
+    USERS ||--o{ API_USAGE_LOGS : "makes_requests"
+    DEVELOPERS ||--o{ API_USAGE_LOGS : "tracks_usage"
+    MODELS ||--o{ API_USAGE_LOGS : "logs_usage"
+            </div>
+        </div>
+
+        <div class="relationship-list">
+            <h3>🔗 Key Relationships</h3>
+            <ul>
+                <li><strong>DEVELOPERS → MODELS</strong>: One-to-Many (1:*) - One developer can create multiple models</li>
+                <li><strong>USERS → USER_HISTORY</strong>: One-to-Many (1:*) - One user can have multiple interaction records</li>
+                <li><strong>MODELS → USER_HISTORY</strong>: One-to-Many (1:*) - One model can be used in multiple interactions</li>
+                <li><strong>USERS → MODEL_REVIEWS</strong>: One-to-Many (1:*) - One user can write multiple reviews</li>
+                <li><strong>MODELS → MODEL_REVIEWS</strong>: One-to-Many (1:*) - One model can receive multiple reviews</li>
+                <li><strong>Multiple entities → API_USAGE_LOGS</strong>: For comprehensive API usage tracking</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>🛠️ Key Features</h3>
+            <ul>
+                <li><strong>Security</strong>: Password hashing, email verification, API key management</li>
+                <li><strong>Analytics</strong>: Usage tracking, performance metrics, cost tracking</li>
+                <li><strong>Scalability</strong>: UUID primary keys, proper indexing, optimized queries</li>
+                <li><strong>Business Logic</strong>: Rating systems, quota management, revenue tracking</li>
+                <li><strong>Data Integrity</strong>: Custom enum types, constraints, automatic triggers</li>
+                <li><strong>Flexibility</strong>: Array fields for tags and expertise, JSON-like text fields</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>📋 Business Rules</h3>
+            <ul>
+                <li>Each user can only review a specific model once (unique constraint)</li>
+                <li>Models must have a developer owner (cannot exist without developer)</li>
+                <li>Cascade deletes maintain referential integrity</li>
+                <li>Status management controls access for both users and developers</li>
+                <li>API rate limiting through developer quotas</li>
+                <li>Automatic calculation of statistics through database triggers</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>

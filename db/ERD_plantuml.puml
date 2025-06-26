@@ -1,0 +1,206 @@
+@startuml AI_Model_Platform_ERD
+!define ENTITY class
+!define PK <<PK>>
+!define FK <<FK>>
+!define UK <<UK>>
+
+title AI Model Platform - Entity Relationship Diagram
+
+ENTITY USERS {
+  + user_id: UUID PK
+  --
+  username: VARCHAR(50) UK
+  email: VARCHAR(255) UK
+  password_hash: VARCHAR(255)
+  first_name: VARCHAR(100)
+  last_name: VARCHAR(100)
+  date_of_birth: DATE
+  phone_number: VARCHAR(20)
+  country: VARCHAR(100)
+  city: VARCHAR(100)
+  profile_picture_url: TEXT
+  bio: TEXT
+  status: user_status ENUM
+  email_verified: BOOLEAN
+  email_verification_token: VARCHAR(255)
+  password_reset_token: VARCHAR(255)
+  password_reset_expires: TIMESTAMP
+  last_login: TIMESTAMP
+  login_count: INTEGER
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
+}
+
+ENTITY DEVELOPERS {
+  + developer_id: UUID PK
+  --
+  username: VARCHAR(50) UK
+  email: VARCHAR(255) UK
+  password_hash: VARCHAR(255)
+  first_name: VARCHAR(100)
+  last_name: VARCHAR(100)
+  company_name: VARCHAR(200)
+  website_url: TEXT
+  github_profile: VARCHAR(100)
+  linkedin_profile: VARCHAR(100)
+  phone_number: VARCHAR(20)
+  country: VARCHAR(100)
+  city: VARCHAR(100)
+  profile_picture_url: TEXT
+  bio: TEXT
+  expertise_areas: TEXT[]
+  years_of_experience: INTEGER
+  status: developer_status ENUM
+  email_verified: BOOLEAN
+  email_verification_token: VARCHAR(255)
+  password_reset_token: VARCHAR(255)
+  password_reset_expires: TIMESTAMP
+  api_quota_limit: INTEGER
+  api_quota_used: INTEGER
+  last_login: TIMESTAMP
+  login_count: INTEGER
+  total_models_created: INTEGER
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
+}
+
+ENTITY MODELS {
+  + model_id: UUID PK
+  --
+  developer_id: UUID FK
+  model_name: VARCHAR(200)
+  display_name: VARCHAR(200)
+  description: TEXT
+  detailed_description: TEXT
+  version: VARCHAR(20)
+  api_name: VARCHAR(100) UK
+  api_key: VARCHAR(255) UK
+  api_endpoint: TEXT
+  category: model_category ENUM
+  tags: TEXT[]
+  input_format: VARCHAR(50)
+  output_format: VARCHAR(50)
+  max_input_length: INTEGER
+  max_output_length: INTEGER
+  response_time_ms: INTEGER
+  accuracy_score: DECIMAL(3,2)
+  status: model_status ENUM
+  is_public: BOOLEAN
+  documentation_url: TEXT
+  example_request: TEXT
+  example_response: TEXT
+  total_requests: INTEGER
+  total_users: INTEGER
+  average_rating: DECIMAL(3,2)
+  rating_count: INTEGER
+  featured: BOOLEAN
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
+  deprecated_at: TIMESTAMP
+}
+
+ENTITY USER_HISTORY {
+  + history_id: UUID PK
+  --
+  user_id: UUID FK
+  model_id: UUID FK
+  session_id: VARCHAR(255)
+  prompt: TEXT
+  response: TEXT
+  response_status: VARCHAR(20)
+  error_message: TEXT
+  request_timestamp: TIMESTAMP
+  response_timestamp: TIMESTAMP
+  response_time_ms: INTEGER
+  input_tokens: INTEGER
+  output_tokens: INTEGER
+  cost_incurred: DECIMAL(10,4)
+  user_rating: INTEGER
+  user_feedback: TEXT
+  ip_address: INET
+  user_agent: TEXT
+  api_version: VARCHAR(10)
+  created_at: TIMESTAMP
+}
+
+ENTITY MODEL_REVIEWS {
+  + review_id: UUID PK
+  --
+  model_id: UUID FK
+  user_id: UUID FK
+  rating: INTEGER
+  review_title: VARCHAR(200)
+  review_text: TEXT
+  is_verified_user: BOOLEAN
+  helpful_votes: INTEGER
+  total_votes: INTEGER
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
+  ..
+  UNIQUE(model_id, user_id)
+}
+
+ENTITY API_USAGE_LOGS {
+  + log_id: UUID PK
+  --
+  user_id: UUID FK (nullable)
+  developer_id: UUID FK (nullable)
+  model_id: UUID FK
+  api_key_used: VARCHAR(255)
+  request_method: VARCHAR(10)
+  request_path: TEXT
+  response_status_code: INTEGER
+  request_size_bytes: INTEGER
+  response_size_bytes: INTEGER
+  processing_time_ms: INTEGER
+  created_at: TIMESTAMP
+}
+
+' Relationships
+DEVELOPERS ||--o{ MODELS : "creates"
+USERS ||--o{ USER_HISTORY : "generates"
+MODELS ||--o{ USER_HISTORY : "used in"
+USERS ||--o{ MODEL_REVIEWS : "writes"
+MODELS ||--o{ MODEL_REVIEWS : "receives"
+USERS ||--o{ API_USAGE_LOGS : "requests"
+DEVELOPERS ||--o{ API_USAGE_LOGS : "usage tracked"
+MODELS ||--o{ API_USAGE_LOGS : "logs for"
+
+note right of USERS
+  End users who consume AI models
+  Status: active, inactive, suspended, pending_verification
+end note
+
+note right of DEVELOPERS
+  Model creators and maintainers
+  Status: active, inactive, suspended, pending_approval
+  Tracks API quotas and model creation
+end note
+
+note right of MODELS
+  AI models with API access
+  Categories: text_generation, image_generation, 
+  code_generation, data_analysis, etc.
+  Auto-calculated fields: total_requests, 
+  total_users, average_rating
+end note
+
+note right of USER_HISTORY
+  Complete interaction log
+  Tracks sessions, costs, performance
+  Links users to model usage
+end note
+
+note right of MODEL_REVIEWS
+  User feedback system
+  One review per user per model
+  Affects model average_rating
+end note
+
+note right of API_USAGE_LOGS
+  Detailed API monitoring
+  Used for analytics and rate limiting
+  Can track both user and developer usage
+end note
+
+@enduml
