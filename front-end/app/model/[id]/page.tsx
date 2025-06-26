@@ -6,7 +6,7 @@ import { DeveloperInfo } from "@/components/developer-info"
 import { getModelById, getModelType, type Model } from "@/components/models-availble"
 import { notFound } from 'next/navigation'
 import Model3DViewer from "@/components/3dmeshview"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 // Helper function to validate and determine UI layout
 const getUIConfig = (modelType: string) => {
@@ -173,11 +173,44 @@ const MusicGenerationUI = ({ model }: { model: any }) => (
   </div>
 )
 
-export default function ModelPage({ params }: { params: { id: string } }) {
-  // Load the actual model data based on the ID
-  const model = getModelById(params.id)
-  
-  // If model not found, show 404
+export default function ModelPage({ params }: { params: Promise<{ id: string }> }) {
+  const [model, setModel] = useState<Model | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadModel() {
+      try {
+        const resolvedParams = await params
+        const foundModel = getModelById(resolvedParams.id)
+        
+        if (!foundModel) {
+          notFound()
+          return
+        }
+        
+        setModel(foundModel)
+      } catch (error) {
+        console.error('Error loading model:', error)
+        notFound()
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadModel()
+  }, [params])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading model...</p>
+        </div>
+      </div>
+    )
+  }
+
   if (!model) {
     notFound()
   }

@@ -12,6 +12,12 @@ export interface Model {
     tags: string[]
     pricing: string
     lastUpdated: string
+    supportedInputs: {
+      text: boolean
+      image: boolean
+      document: boolean
+      audio: boolean
+    }
   }
   
   export const models: Model[] = [
@@ -26,7 +32,13 @@ export interface Model {
       interactions: 10,
       tags: ["Image", "Generation", "Creative"],
       pricing: "Free tier available",
-      lastUpdated: "2024-01-15"
+      lastUpdated: "2024-01-15",
+      supportedInputs: {
+        text: true,
+        image: false,
+        document: false,
+        audio: false
+      }
     },
     {
       id: "imagegeneration-2", 
@@ -39,7 +51,13 @@ export interface Model {
       interactions: 8,
       tags: ["Image", "Generation", "Creative"],
       pricing: "$0.05 per image",
-      lastUpdated: "2024-01-12"
+      lastUpdated: "2024-01-12",
+      supportedInputs: {
+        text: true,
+        image: true,
+        document: false,
+        audio: false
+      }
     },
     {
       id: "3dgeneration-1",
@@ -52,7 +70,13 @@ export interface Model {
       interactions: 1,
       tags: ["3D", "Mesh", "Generation"],
       pricing: "$0.10 per mesh",
-      lastUpdated: "2024-01-10"
+      lastUpdated: "2024-01-10",
+      supportedInputs: {
+        text: true,
+        image: false,
+        document: false,
+        audio: false
+      }
     },
     {
       id: "3dgeneration-2",
@@ -65,7 +89,13 @@ export interface Model {
       interactions: 6,
       tags: ["3D", "Mesh", "Generation"],
       pricing: "$0.15 per mesh",
-      lastUpdated: "2024-01-08"
+      lastUpdated: "2024-01-08",
+      supportedInputs: {
+        text: false,
+        image: true,
+        document: false,
+        audio: false
+      }
     },
     {
       id: "3dgeneration-3",
@@ -78,7 +108,13 @@ export interface Model {
       interactions: 6,
       tags: ["3D", "Mesh", "Generation"],
       pricing: "$0.12 per mesh",
-      lastUpdated: "2024-01-05"
+      lastUpdated: "2024-01-05",
+      supportedInputs: {
+        text: true,
+        image: false,
+        document: false,
+        audio: false
+      }
     },
     {
       id: "musicgeneration-1",
@@ -91,7 +127,13 @@ export interface Model {
       interactions: 2, 
       tags: ["Music", "Generation", "Composition"],
       pricing: "$0.20 per track",
-      lastUpdated: "2024-01-14"
+      lastUpdated: "2024-01-14",
+      supportedInputs: {
+        text: true,
+        image: false,
+        document: false,
+        audio: true
+      }
     },
   ]
   
