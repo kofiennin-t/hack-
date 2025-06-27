@@ -1,243 +1,191 @@
-"use client"
-
-import { ModelChat } from "@/components/model-chat"
+import { MultiInputChat } from "@/components/multi-input-chat"
 import { ModelInfo } from "@/components/model-info"
 import { DeveloperInfo } from "@/components/developer-info"
-import { getModelById, getModelType, type Model } from "@/components/models-availble"
-import { notFound } from 'next/navigation'
-import Model3DViewer from "@/components/3dmeshview"
-import { useState, useEffect } from "react"
 
-// Helper function to validate and determine UI layout
-const getUIConfig = (modelType: string) => {
-  const configs = {
-    imagegeneration: {
-      layout: 'image',
-      primaryComponent: 'ImageGenerator',
-      bgColor: 'bg-purple-50',
-      accentColor: 'purple'
-    },
-    '3dgeneration': {
-      layout: '3d',
-      primaryComponent: '3DViewer', 
-      bgColor: 'bg-blue-50',
-      accentColor: 'blue'
-    },
-    musicgeneration: {
-      layout: 'audio',
-      primaryComponent: 'AudioPlayer',
-      bgColor: 'bg-green-50', 
-      accentColor: 'green'
-    },
-    default: {
-      layout: 'chat',
-      primaryComponent: 'ModelChat',
-      bgColor: 'bg-gray-50',
-      accentColor: 'gray'
-    }
-  }
-  
-  return configs[modelType as keyof typeof configs] || configs.default
-}
+// Sample model data - YOU CAN MANUALLY ADD API URLs AND TOKENS HERE
+const getModelData = async (id: string) => {
+  // First try to fetch from API
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/models/${id}`, {
+      cache: "no-store", // Always fetch fresh data
+    })
 
-// Different UI components for each model type
-const ImageGenerationUI = ({ model }: { model: any }) => (
-  <div className="space-y-6">
-    <div className="bg-white rounded-lg p-6 shadow-sm">
-      <h2 className="text-xl font-semibold mb-4 text-purple-800">Image Generation Studio</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">Text Prompt</label>
-          <textarea 
-            className="w-full p-3 border rounded-lg resize-none" 
-            rows={4}
-            placeholder="Describe the image you want to generate..."
-          />
-          <button className="mt-3 w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">
-            Generate Image
-          </button>
-        </div>
-        <div className="bg-gray-100 rounded-lg aspect-square flex items-center justify-center">
-          <span className="text-gray-500">Generated image will appear here</span>
-        </div>
-      </div>
-    </div>
-  </div>
-)
-
-const ThreeDGenerationUI = ({ model }: { model: any }) => {
-  const [generatedModelUrl, setGeneratedModelUrl] = useState<string | null>(null)
-  
-  // Use your local white_mesh.glb file
-  const exampleModelUrl = "/white_mesh.glb"
-  
-  return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-lg p-6 shadow-sm">
-        <h2 className="text-xl font-semibold mb-4 text-blue-800">3D Mesh Generator</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">Input Description</label>
-            <textarea 
-              className="w-full p-3 border rounded-lg resize-none" 
-              rows={3}
-              placeholder="Describe the 3D object..."
-            />
-            <div className="mt-3 space-y-2">
-              <label className="block text-sm font-medium">Quality</label>
-              <select className="w-full p-2 border rounded-lg">
-                <option>Low (Fast)</option>
-                <option>Medium</option>
-                <option>High (Slow)</option>
-              </select>
-            </div>
-            <button 
-              className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
-              onClick={() => setGeneratedModelUrl(exampleModelUrl)}
-            >
-              Generate 3D Mesh
-            </button>
-            <button 
-              className="mt-2 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700"
-              onClick={() => setGeneratedModelUrl("/white_mesh.glb")}
-            >
-              Load White Mesh
-            </button>
-          </div>
-          <div className="bg-gray-100 rounded-lg flex items-center justify-center min-h-[400px]">
-            {generatedModelUrl ? (
-              <Model3DViewer 
-                modelUrl={generatedModelUrl}
-                height={400}
-                width={500}
-                showTexture={true}
-              />
-            ) : (
-              <span className="text-gray-500">3D viewer will appear here</span>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const MusicGenerationUI = ({ model }: { model: any }) => (
-  <div className="space-y-6">
-    <div className="bg-white rounded-lg p-6 shadow-sm">
-      <h2 className="text-xl font-semibold mb-4 text-green-800">Music Composition Studio</h2>
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-2">Music Description</label>
-          <textarea 
-            className="w-full p-3 border rounded-lg resize-none" 
-            rows={3}
-            placeholder="Describe the music style, mood, instruments..."
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">Genre</label>
-            <select className="w-full p-2 border rounded-lg">
-              <option>Classical</option>
-              <option>Jazz</option>
-              <option>Electronic</option>
-              <option>Pop</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Duration</label>
-            <select className="w-full p-2 border rounded-lg">
-              <option>30 seconds</option>
-              <option>1 minute</option>
-              <option>2 minutes</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Tempo</label>
-            <select className="w-full p-2 border rounded-lg">
-              <option>Slow</option>
-              <option>Medium</option>
-              <option>Fast</option>
-            </select>
-          </div>
-        </div>
-        <button className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
-          Generate Music
-        </button>
-        <div className="bg-gray-100 rounded-lg p-4">
-          <span className="text-gray-500">Audio player will appear here</span>
-        </div>
-      </div>
-    </div>
-  </div>
-)
-
-export default function ModelPage({ params }: { params: Promise<{ id: string }> }) {
-  const [model, setModel] = useState<Model | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    async function loadModel() {
-      try {
-        const resolvedParams = await params
-        const foundModel = getModelById(resolvedParams.id)
-        
-        if (!foundModel) {
-          notFound()
-          return
+    if (response.ok) {
+      const data = await response.json()
+      if (data.success) {
+        return {
+          id: data.model.id,
+          name: data.model.name,
+          developer: `Developer ${data.model.developerId}`,
+          description: data.model.description,
+          category: data.model.category,
+          thumbnail: data.model.thumbnailUrl,
+          rating: data.model.rating,
+          interactions: data.model.interactions,
+          tags: data.model.tags,
+          apiEndpoint: data.model.apiEndpoint,
+          huggingFaceToken: data.model.tokenKey,
+          pricing: data.model.pricing,
+          lastUpdated: data.model.lastUpdated,
+          supportedInputs: data.model.supportedInputs,
         }
-        
-        setModel(foundModel)
-      } catch (error) {
-        console.error('Error loading model:', error)
-        notFound()
-      } finally {
-        setIsLoading(false)
       }
     }
-
-    loadModel()
-  }, [params])
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading model...</p>
-        </div>
-      </div>
-    )
+  } catch (error) {
+    console.error("Failed to fetch model from API:", error)
   }
 
-  if (!model) {
-    notFound()
+  // Fallback to hardcoded models
+  const models = {
+    "1": {
+      id: "1",
+      name: "CodeWizard Pro",
+      developer: "TechCorp AI",
+      description:
+        "Advanced code generation and debugging assistant powered by state-of-the-art language models. Supports multiple programming languages and can help with code review, optimization, and debugging.",
+      category: "Code Assistant",
+      thumbnail: "/placeholder.svg?height=400&width=600",
+      rating: 4.8,
+      interactions: 15420,
+      tags: ["Python", "JavaScript", "Debugging", "Code Review"],
+      // 👇 REPLACE THESE WITH YOUR ACTUAL VALUES
+      apiEndpoint: "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium",
+      huggingFaceToken: "hf_YOUR_ACTUAL_TOKEN_HERE", // Replace with your real token
+      pricing: "Free tier: 100 requests/day, Pro: $29/month",
+      lastUpdated: "2024-01-15",
+      supportedInputs: {
+        text: true,
+        image: false,
+        document: true,
+        audio: false,
+      },
+    },
+    "2": {
+      id: "2",
+      name: "ArtisticVision",
+      developer: "Creative Labs",
+      description: "Generate stunning artwork and illustrations from text and image inputs",
+      category: "Image Generation",
+      thumbnail: "/placeholder.svg?height=400&width=600",
+      rating: 4.9,
+      interactions: 28350,
+      tags: ["Art", "Digital", "Creative"],
+      // 👇 MANUALLY ADD YOUR API URL AND TOKEN HERE
+      apiEndpoint: "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1",
+      huggingFaceToken: "hf_YOUR_TOKEN_HERE", // Replace with your actual token
+      pricing: "Free tier: 50 requests/day, Pro: $19/month",
+      lastUpdated: "2024-01-20",
+      supportedInputs: {
+        text: true,
+        image: true,
+        document: false,
+        audio: false,
+      },
+    },
+    "3": {
+      id: "3",
+      name: "DocumentAnalyzer",
+      developer: "DataMind Solutions",
+      description: "Analyze and extract insights from documents, images, and text",
+      category: "Document Analysis",
+      thumbnail: "/placeholder.svg?height=400&width=600",
+      rating: 4.7,
+      interactions: 12800,
+      tags: ["Analysis", "Documents", "OCR"],
+      // 👇 MANUALLY ADD YOUR API URL AND TOKEN HERE
+      apiEndpoint: "https://api-inference.huggingface.co/models/microsoft/DialoGPT-large",
+      huggingFaceToken: "hf_YOUR_TOKEN_HERE", // Replace with your actual token
+      pricing: "Free tier: 25 requests/day, Pro: $39/month",
+      lastUpdated: "2024-01-18",
+      supportedInputs: {
+        text: true,
+        image: true,
+        document: true,
+        audio: false,
+      },
+    },
+    "4": {
+      id: "4",
+      name: "VoiceTranscriber",
+      developer: "AudioTech AI",
+      description: "Advanced speech-to-text and audio analysis with support for multiple languages",
+      category: "Audio Processing",
+      thumbnail: "/placeholder.svg?height=400&width=600",
+      rating: 4.6,
+      interactions: 18900,
+      tags: ["Speech", "Transcription", "Audio", "Languages"],
+      // 👇 MANUALLY ADD YOUR API URL AND TOKEN HERE
+      apiEndpoint: "https://api-inference.huggingface.co/models/openai/whisper-large-v3",
+      huggingFaceToken: "hf_YOUR_TOKEN_HERE", // Replace with your actual token
+      pricing: "Free tier: 60 minutes/month, Pro: $24/month",
+      lastUpdated: "2024-01-22",
+      supportedInputs: {
+        text: true,
+        image: false,
+        document: false,
+        audio: true,
+      },
+    },
+    "5": {
+      id: "5",
+      name: "MultiModal Assistant",
+      developer: "OmniAI Corp",
+      description: "Universal AI assistant that can process text, images, documents, and audio files",
+      category: "Multi-Modal",
+      thumbnail: "/placeholder.svg?height=400&width=600",
+      rating: 4.9,
+      interactions: 52100,
+      tags: ["Multi-Modal", "Universal", "Assistant", "All-in-One"],
+      // 👇 MANUALLY ADD YOUR API URL AND TOKEN HERE
+      apiEndpoint: "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium",
+      huggingFaceToken: "hf_YOUR_TOKEN_HERE", // Replace with your actual token
+      pricing: "Free tier: 25 requests/day, Pro: $49/month",
+      lastUpdated: "2024-01-25",
+      supportedInputs: {
+        text: true,
+        image: true,
+        document: true,
+        audio: true,
+      },
+    },
+    // 👇 ADD MORE MODELS HERE
+    "6": {
+      id: "6",
+      name: "Your Custom Model",
+      developer: "Your Company",
+      description: "Description of your custom AI model",
+      category: "Custom Category",
+      thumbnail: "/placeholder.svg?height=400&width=600",
+      rating: 4.5,
+      interactions: 1000,
+      tags: ["Custom", "AI", "Model"],
+      // 👇 ADD YOUR CUSTOM API URL AND TOKEN HERE
+      apiEndpoint: "https://your-custom-api.com/v1/chat",
+      huggingFaceToken: "your_custom_token_here",
+      pricing: "Custom pricing",
+      lastUpdated: "2024-01-26",
+      supportedInputs: {
+        text: true,
+        image: false,
+        document: false,
+        audio: false,
+      },
+    },
   }
-  
-  const modelType = getModelType(model.id)
-  const uiConfig = getUIConfig(modelType)
+  return models[id as keyof typeof models] || models["1"]
+}
 
-  // Render different UI based on model type
-  const renderPrimaryInterface = () => {
-    switch (modelType) {
-      case 'imagegeneration':
-        return <ImageGenerationUI model={model} />
-      case '3dgeneration':
-        return <ThreeDGenerationUI model={model} />
-      case 'musicgeneration':
-        return <MusicGenerationUI model={model} />
-      default:
-        return <ModelChat model={model} />
-    }
-  }
+// Make the component async and await params
+export default async function ModelPage({ params }: { params: { id: string } }) {
+  // Await the params before using them
+  const model = await getModelData(params.id)
 
   return (
-    <div className={`min-h-screen ${uiConfig.bgColor}`}>
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            {renderPrimaryInterface()}
+            <MultiInputChat model={model} />
           </div>
           <div className="space-y-6">
             <ModelInfo model={model} />
