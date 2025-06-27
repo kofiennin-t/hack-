@@ -135,6 +135,26 @@ export interface Model {
         audio: true
       }
     },
+
+    {
+      id: "textgeneration-1",
+      name: "TextGenAI",
+      developer: "TextAI Corp",
+      description: "Generate text from prompts",
+      category: "Text Generation",
+      thumbnail: "/placeholder.svg?height=200&width=300",
+      rating: 4.7,
+      interactions: 5,
+      tags: ["Text", "Generation", "Creative"],
+      pricing: "Free tier available",
+      lastUpdated: "2024-01-11",
+      supportedInputs: {
+        text: true,
+        image: false,
+        document: false,
+        audio: false
+      }
+    }
   ]
   
   export function getModelById(id: string): Model | null {

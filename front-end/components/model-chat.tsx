@@ -1,11 +1,14 @@
 "use client"
 
-import { useChat } from "ai/react"
+import React, { useState } from "react"
 import { Send, Bot, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
+
+const API_ENDPOINT = "https://your-model-api-endpoint.com/v1/chat"
+const API_KEY = "your-hardcoded-api-key"
 
 interface ModelChatProps {
   model: {
@@ -15,17 +18,66 @@ interface ModelChatProps {
   }
 }
 
+type Message = {
+  id: string
+  role: "user" | "assistant"
+  content: string
+}
+
 export function ModelChat({ model }: ModelChatProps) {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: "/api/chat",
-    initialMessages: [
-      {
-        id: "welcome",
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: "welcome",
+      role: "assistant",
+      content: `Hello! I'm ${model.name}. ${model.description} How can I help you today?`,
+    },
+  ])
+  const [input, setInput] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!input.trim()) return
+
+    const userMessage: Message = {
+      id: `${Date.now()}-user`,
+      role: "user",
+      content: input,
+    }
+    setMessages((prev) => [...prev, userMessage])
+    setIsLoading(true)
+    setInput("")
+
+    try {
+      const res = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${API_KEY}`,
+        },
+        body: JSON.stringify({ prompt: input }),
+      })
+      const data = await res.json()
+      const botMessage: Message = {
+        id: `${Date.now()}-assistant`,
         role: "assistant",
-        content: `Hello! I'm ${model.name}. ${model.description} How can I help you today?`,
-      },
-    ],
-  })
+        content: data.response || "No response from model.",
+      }
+      setMessages((prev) => [...prev, botMessage])
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `${Date.now()}-assistant`,
+          role: "assistant",
+          content: "Error contacting model.",
+        },
+      ])
+    }
+    setIsLoading(false)
+  }
 
   return (
     <Card className="h-[600px] flex flex-col">
