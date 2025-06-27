@@ -18,7 +18,7 @@ export function DeveloperDashboard() {
           <h1 className="text-3xl font-bold">Developer Dashboard</h1>
           <p className="text-gray-600">Manage your AI models and track performance</p>
         </div>
-        <Button>
+        <Button onClick={() => setActiveTab("models")}>
           <Plus className="h-4 w-4 mr-2" />
           Upload New Model
         </Button>
