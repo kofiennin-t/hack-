@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
-const API_ENDPOINT = "https://your-model-api-endpoint.com/v1/chat"
-const API_KEY = "your-hardcoded-api-key"
+const API_ENDPOINT = "https://router.huggingface.co/hf-inference/models/HuggingFaceH4/zephyr-7b-beta/v1/chat/completions"
+const API_KEY = "Bearer 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"
 
 interface ModelChatProps {
   model: {
@@ -55,15 +55,23 @@ export function ModelChat({ model }: ModelChatProps) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${API_KEY}`,
+          "Authorization": API_KEY,
         },
-        body: JSON.stringify({ prompt: input }),
+        body: JSON.stringify({
+          messages: [
+            ...messages.map((m) => ({
+              role: m.role,
+              content: m.content,
+            })),
+            { role: "user", content: input },
+          ],
+        }),
       })
       const data = await res.json()
       const botMessage: Message = {
         id: `${Date.now()}-assistant`,
         role: "assistant",
-        content: data.response || "No response from model.",
+        content: data.choices?.[0]?.message?.content || "No response from model.",
       }
       setMessages((prev) => [...prev, botMessage])
     } catch (err) {
