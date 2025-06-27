@@ -3,10 +3,10 @@ from tkinter import Tk, filedialog
 
 # Hugging Face API URL for Skin Cancer Image Classification
 API_URL = "https://router.huggingface.co/hf-inference/models/Anwarkh1/Skin_Cancer-Image_Classification"
-HF_Token ="Input your Token" 
+
 # Hardcoded token for simplicity (replace with your real token)
 headers = {
-    "Authorization": "Bearer "+"HF_Token",
+    "Authorization": "Bearer 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",
 }
 
 def select_image():
