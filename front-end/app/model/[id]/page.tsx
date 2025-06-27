@@ -7,7 +7,7 @@ import { getModelById, getModelType, type Model } from "@/components/models-avai
 import { notFound } from 'next/navigation'
 import Model3DViewer from "@/components/3dmeshview"
 import { useState, useEffect } from "react"
-
+import ImageGenerationUI from "./model-img-gen"
 // Helper function to validate and determine UI layout
 const getUIConfig = (modelType: string) => {
   const configs = {
@@ -40,30 +40,7 @@ const getUIConfig = (modelType: string) => {
   return configs[modelType as keyof typeof configs] || configs.default
 }
 
-// Different UI components for each model type
-const ImageGenerationUI = ({ model }: { model: any }) => (
-  <div className="space-y-6">
-    <div className="bg-white rounded-lg p-6 shadow-sm">
-      <h2 className="text-xl font-semibold mb-4 text-purple-800">Image Generation Studio</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">Text Prompt</label>
-          <textarea 
-            className="w-full p-3 border rounded-lg resize-none" 
-            rows={4}
-            placeholder="Describe the image you want to generate..."
-          />
-          <button className="mt-3 w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">
-            Generate Image
-          </button>
-        </div>
-        <div className="bg-gray-100 rounded-lg aspect-square flex items-center justify-center">
-          <span className="text-gray-500">Generated image will appear here</span>
-        </div>
-      </div>
-    </div>
-  </div>
-)
+
 
 const ThreeDGenerationUI = ({ model }: { model: any }) => {
   const [generatedModelUrl, setGeneratedModelUrl] = useState<string | null>(null)
