@@ -6,10 +6,11 @@ export interface Model {
     developer: string
     description: string
     category: string
-    thumbnail: string
     rating: number
     interactions: number
     tags: string[]
+    API_URL: string
+    thumbnail: string
     pricing: string
     lastUpdated: string
     supportedInputs: {
@@ -24,13 +25,14 @@ export interface Model {
     {
       id: "imagegeneration-1",
       name: "DeepSeek-Image",
-      developer: "TechCorp AI", 
+      developer: "Dzifa Yabetse", 
       description: "Generate images from text",
       category: "Image Generation",
       thumbnail: "/placeholder.svg?height=200&width=300",
       rating: 4.8,
       interactions: 10,
       tags: ["Image", "Generation", "Creative"],
+      API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
       pricing: "Free tier available",
       lastUpdated: "2024-01-15",
       supportedInputs: {
@@ -43,13 +45,14 @@ export interface Model {
     {
       id: "imagegeneration-2", 
       name: "ArtisticVision",
-      developer: "Creative Labs",
+      developer: "Kofi Hassan",
       description: "Generate stunning artwork and illustrations from text",
-      category: "Image Generation", 
-      thumbnail: "/placeholder.svg?height=200&width=300",
+      category: "Image Generation",
       rating: 4.9,
       interactions: 8,
       tags: ["Image", "Generation", "Creative"],
+      API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
+      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
       pricing: "$0.05 per image",
       lastUpdated: "2024-01-12",
       supportedInputs: {
@@ -62,13 +65,14 @@ export interface Model {
     {
       id: "3dgeneration-1",
       name: "DeepDream", 
-      developer: "DataMind Solutions",
+      developer: "Joey Karachi",
       description: "Intelligent document and article summarization",
       category: "3D Generation",
-      thumbnail: "/placeholder.svg?height=200&width=300", 
       rating: 4.6,
       interactions: 1,
       tags: ["3D", "Mesh", "Generation"],
+      API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
+      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
       pricing: "$0.10 per mesh",
       lastUpdated: "2024-01-10",
       supportedInputs: {
@@ -81,13 +85,14 @@ export interface Model {
     {
       id: "3dgeneration-2",
       name: "Hunyuan3D-2",
-      developer: "3DGenAI", 
+      developer: "Frederica Josiane", 
       description: "Generate 3D meshes from images",
       category: "3D Generation",
-      thumbnail: "/placeholder.svg?height=200&width=300",
       rating: 4.8, 
       interactions: 6,
       tags: ["3D", "Mesh", "Generation"],
+      API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
+      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
       pricing: "$0.15 per mesh",
       lastUpdated: "2024-01-08",
       supportedInputs: {
@@ -100,13 +105,14 @@ export interface Model {
     {
       id: "3dgeneration-3",
       name: "3D Mesh Generator",
-      developer: "3DGenAI",
+      developer: "Kwame Coder",
       description: "Generate 3D meshes from text", 
       category: "3D Generation",
-      thumbnail: "/placeholder.svg?height=200&width=300",
       rating: 4.8,
       interactions: 6,
       tags: ["3D", "Mesh", "Generation"],
+      API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
+      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
       pricing: "$0.12 per mesh",
       lastUpdated: "2024-01-05",
       supportedInputs: {
@@ -119,13 +125,14 @@ export interface Model {
     {
       id: "musicgeneration-1",
       name: "Music Generator", 
-      developer: "MusicGenAI",
+      developer: "Dadou Uwumukiza",
       description: "Generate music from text",
       category: "Music Generation",
-      thumbnail: "/placeholder.svg?height=200&width=300",
       rating: 4.9,
       interactions: 2, 
       tags: ["Music", "Generation", "Composition"],
+      API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
+      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
       pricing: "$0.20 per track",
       lastUpdated: "2024-01-14",
       supportedInputs: {
@@ -139,13 +146,14 @@ export interface Model {
     {
       id: "textgeneration-1",
       name: "TextGenAI",
-      developer: "TextAI Corp",
+      developer: "Asante Coders",
       description: "Generate text from prompts",
       category: "Text Generation",
-      thumbnail: "/placeholder.svg?height=200&width=300",
       rating: 4.7,
       interactions: 5,
       tags: ["Text", "Generation", "Creative"],
+      API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
+      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
       pricing: "Free tier available",
       lastUpdated: "2024-01-11",
       supportedInputs: {
