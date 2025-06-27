@@ -84,9 +84,12 @@ export function ModelUploadForm() {
           tokenKey: formData.tokenKey,
           tags: formData.tags,
           pricing: formData.pricing,
-          thumbnailUrl: formData.thumbnailUrl,
+          thumbnail: formData.thumbnailUrl,
           supportedInputs: formData.supportedInputs,
-          developerId: 1001, // Fixed developer ID as requested
+          developer: 1001, // Fixed developer ID as requested
+          rating: 0,
+          interactions: 0
+
         }),
       })
 
@@ -102,6 +105,10 @@ export function ModelUploadForm() {
         message: `Model "${formData.name}" uploaded successfully! Model ID: ${result.model.id}`,
       })
 
+       // Show pop-up message
+      alert("Model details uploaded successfully.");
+
+
       // Reset form
       setFormData({
         name: "",
@@ -113,7 +120,7 @@ export function ModelUploadForm() {
         pricing: "",
         thumbnailUrl: "",
         supportedInputs: {
-          text: true,
+          text: false,
           image: false,
           document: false,
           audio: false,
@@ -172,6 +179,7 @@ export function ModelUploadForm() {
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="3D-model-generation">3D Model Generation</SelectItem>
                   <SelectItem value="text-generation">Text Generation</SelectItem>
                   <SelectItem value="image-generation">Image Generation</SelectItem>
                   <SelectItem value="code-assistant">Code Assistant</SelectItem>
@@ -300,7 +308,7 @@ export function ModelUploadForm() {
                 </Label>
                 <Input
                   id="tags"
-                  placeholder="Python, JavaScript, Debugging"
+                  placeholder="image,music,3D"
                   value={formData.tags}
                   onChange={(e) => handleInputChange("tags", e.target.value)}
                 />
@@ -321,7 +329,7 @@ export function ModelUploadForm() {
           <div className="bg-gray-50 p-4 rounded-lg">
             <h4 className="font-medium mb-2">Developer Information</h4>
             <p className="text-sm text-gray-600">
-              Developer ID: <span className="font-mono">1001</span> (automatically assigned)
+              Developer: <span className="font-mono">Asante Coders</span>
             </p>
           </div>
 

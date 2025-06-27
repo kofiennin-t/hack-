@@ -1,0 +1,38 @@
+# Django Backend Requirements for AI Model Platform
+# Core Django and DRF
+Django==4.2.7
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+
+# Database - PostgreSQL
+psycopg2-binary==2.9.7
+
+# Authentication & Authorization
+djangorestframework-simplejwt==5.3.0
+
+# API Documentation
+drf-spectacular==0.26.5
+
+# Validation & Serialization
+django-phonenumber-field==7.1.0
+phonenumbers==8.13.23
+
+# Filtering and Search
+django-filter==23.4
+
+# Utilities
+python-decouple==3.8
+pillow==10.1.0
+python-dateutil==2.8.2
+requests==2.31.0
+
+# Production
+gunicorn==21.2.0
+whitenoise==6.6.0
+
+# Development and Testing
+django-extensions==3.2.3
+django-debug-toolbar==4.2.0
+factory-boy==3.3.0
+pytest==7.4.3
+pytest-django==4.7.0
