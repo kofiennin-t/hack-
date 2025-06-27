@@ -6,7 +6,7 @@ API_URL = "https://router.huggingface.co/hf-inference/models/Anwarkh1/Skin_Cance
 
 # Hardcoded token for simplicity (replace with your real token)
 headers = {
-    "Authorization": "Bearer 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",
+    "Authorization": "Bearer hf_....",
 }
 
 def select_image():

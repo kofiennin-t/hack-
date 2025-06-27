@@ -3,19 +3,20 @@
 import { useState } from "react"
 
 // API URL for the FLUX text-to-image model
-const API_URL = "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev"
+// const API_URL = "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev"
 
 // Hardcoded Hugging Face token
 const headers = {
-    "Authorization": "Bearer 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",
+    "Authorization": "Bearer hf_....",
     "Content-Type": "application/json"
 }
 
 interface ImageGenerationUIProps {
   model: any
+  API_URL: string
 }
 
-export default function ImageGenerationUI({ model }: ImageGenerationUIProps) {
+export default function ImageGenerationUI({ model, API_URL }: ImageGenerationUIProps) {
   const [prompt, setPrompt] = useState("")
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)

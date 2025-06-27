@@ -52,7 +52,7 @@ export interface Model {
       interactions: 8,
       tags: ["Image", "Generation", "Creative"],
       API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
-      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
+      thumbnail: "/artisticvision.jpg",
       pricing: "$0.05 per image",
       lastUpdated: "2024-01-12",
       supportedInputs: {
@@ -72,7 +72,7 @@ export interface Model {
       interactions: 1,
       tags: ["3D", "Mesh", "Generation"],
       API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
-      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
+      thumbnail: "/deepdream.jpg",
       pricing: "$0.10 per mesh",
       lastUpdated: "2024-01-10",
       supportedInputs: {
@@ -92,7 +92,7 @@ export interface Model {
       interactions: 6,
       tags: ["3D", "Mesh", "Generation"],
       API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
-      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
+      thumbnail: "/hunyuan.png",
       pricing: "$0.15 per mesh",
       lastUpdated: "2024-01-08",
       supportedInputs: {
@@ -112,7 +112,7 @@ export interface Model {
       interactions: 6,
       tags: ["3D", "Mesh", "Generation"],
       API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
-      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
+      thumbnail: "/3dmesh.png",
       pricing: "$0.12 per mesh",
       lastUpdated: "2024-01-05",
       supportedInputs: {
@@ -132,7 +132,7 @@ export interface Model {
       interactions: 2, 
       tags: ["Music", "Generation", "Composition"],
       API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
-      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
+      thumbnail: "/musicgenerator.jpg",
       pricing: "$0.20 per track",
       lastUpdated: "2024-01-14",
       supportedInputs: {
@@ -152,13 +152,54 @@ export interface Model {
       rating: 4.7,
       interactions: 5,
       tags: ["Text", "Generation", "Creative"],
-      API_URL:"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev",
-      thumbnail: "https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification/resolve/main/thumbnail.png",
+      API_URL:"https://router.huggingface.co/hf-inference/models/HuggingFaceH4/zephyr-7b-beta/v1/chat/completions",
+      thumbnail: "/textgen.png",
       pricing: "Free tier available",
       lastUpdated: "2024-01-11",
       supportedInputs: {
         text: true,
         image: false,
+        document: false,
+        audio: false
+      }
+    },
+
+    {
+      id: "diseasedectection-1",
+      name: "Skin Cancer Detection",
+      developer: "DeMarcus",
+      description: "Detect skin cancer from images",
+      category: "Disease Detection",
+      rating: 4.7,
+      interactions: 1,
+      tags: ["skin", "cancer", "detection"],
+      API_URL:"https://router.huggingface.co/hf-inference/models/Anwarkh1/Skin_Cancer-Image_Classification",
+      thumbnail: "/cancer.png",
+      pricing: "Free tier available",
+      lastUpdated: "2024-01-11",
+      supportedInputs: {
+        text: false,
+        image: true,
+        document: false,
+        audio: false
+      }
+    },
+    {
+      id: "diseasedectection-2",
+      name: "Plant Disease Detection",
+      developer: "Freeman",
+      description: "Detect plant diseases from images",
+      category: "Disease Detection",
+      rating: 4.7,
+      interactions: 5,
+      tags: ["plant", "disease", "detection"],
+      API_URL:"https://router.huggingface.co/hf-inference/models/linkanjarad/mobilenet_v2_1.0_224-plant-disease-identification",
+      thumbnail: "/plantdisease.png",
+      pricing: "Free tier available",
+      lastUpdated: "2024-01-11",
+      supportedInputs: {
+        text: false,
+        image: true,
         document: false,
         audio: false
       }

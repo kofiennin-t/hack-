@@ -2,7 +2,7 @@ import requests
 import json
 
 endpoint = "https://stable-diffusion-3-5-large-qbmiv.eastus2.models.ai.azure.com/images/generations:submit?api-version=2023-06-01-preview"
-api_key = "GpIkSyac8XKXYY43NCXw4mbJAKDcTdV7"
+api_key = "hf_...."
 
 headers = {
     "Content-Type": "application/json",

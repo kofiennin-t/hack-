@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation'
 import Model3DViewer from "@/components/3dmeshview"
 import { useState, useEffect } from "react"
 import ImageGenerationUI from "./model-img-gen"
+import DiseaseDetectionUI from "./diseeasedet"
 // Helper function to validate and determine UI layout
 const getUIConfig = (modelType: string) => {
   const configs = {
@@ -42,7 +43,7 @@ const getUIConfig = (modelType: string) => {
 
 
 
-const ThreeDGenerationUI = ({ model }: { model: any }) => {
+const ThreeDGenerationUI = ({ model, API_URL }: { model: any, API_URL: string }) => {
   const [generatedModelUrl, setGeneratedModelUrl] = useState<string | null>(null)
   
   // Use your local white_mesh.glb file
@@ -99,7 +100,7 @@ const ThreeDGenerationUI = ({ model }: { model: any }) => {
   )
 }
 
-const MusicGenerationUI = ({ model }: { model: any }) => (
+const MusicGenerationUI = ({ model, API_URL }: { model: any, API_URL: string }) => (
   <div className="space-y-6">
     <div className="bg-white rounded-lg p-6 shadow-sm">
       <h2 className="text-xl font-semibold mb-4 text-green-800">Music Composition Studio</h2>
@@ -199,13 +200,15 @@ export default function ModelPage({ params }: { params: Promise<{ id: string }> 
   const renderPrimaryInterface = () => {
     switch (modelType) {
       case 'imagegeneration':
-        return <ImageGenerationUI model={model} />
+        return <ImageGenerationUI model={model} API_URL={model.API_URL} />
       case '3dgeneration':
-        return <ThreeDGenerationUI model={model} />
+        return <ThreeDGenerationUI model={model} API_URL={model.API_URL} />
       case 'musicgeneration':
-        return <MusicGenerationUI model={model} />
+        return <MusicGenerationUI model={model} API_URL={model.API_URL} />
+      case 'diseasedectection':
+        return <DiseaseDetectionUI model={model} API_URL={model.API_URL} />
       default:
-        return <ModelChat model={model} />
+        return <ModelChat model={model} API_URL={model.API_URL} />
     }
   }
 

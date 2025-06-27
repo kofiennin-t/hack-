@@ -7,7 +7,7 @@ API_URL = "https://router.huggingface.co/hf-inference/models/black-forest-labs/F
 
 # Hardcoded Hugging Face token for simplicity (replace with your real token)
 headers = {
-    "Authorization": "Bearer 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",
+    "Authorization": "Bearer hf_....",
 }
 
 def query(prompt):

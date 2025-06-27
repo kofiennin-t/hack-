@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
-const API_ENDPOINT = "https://router.huggingface.co/hf-inference/models/HuggingFaceH4/zephyr-7b-beta/v1/chat/completions"
-const API_KEY = "Bearer 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"
+// const API_ENDPOINT = "https://router.huggingface.co/hf-inference/models/HuggingFaceH4/zephyr-7b-beta/v1/chat/completions"
+const API_KEY = "Bearer hf_...."
 
 interface ModelChatProps {
   model: {
@@ -16,6 +16,7 @@ interface ModelChatProps {
     name: string
     description: string
   }
+  API_URL: string
 }
 
 type Message = {
@@ -24,7 +25,7 @@ type Message = {
   content: string
 }
 
-export function ModelChat({ model }: ModelChatProps) {
+export function ModelChat({ model, API_URL }: ModelChatProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -51,7 +52,7 @@ export function ModelChat({ model }: ModelChatProps) {
     setInput("")
 
     try {
-      const res = await fetch(API_ENDPOINT, {
+      const res = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
